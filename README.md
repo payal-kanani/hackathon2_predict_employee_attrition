@@ -1,6 +1,8 @@
 # Predict Employee Attrition
 
-**Predict Employee Attrition** is a comprehensive data analysis tool designed to streamline data exploration, analysis, and visualisation. The tool supports multiple data formats and provides an intuitive interface for both novice and expert data scien
+This project is designed to analyze employee behavior patterns and their relation to attrition rates to help employers make informed decisions and plan for timely intervention measures. It utilizes a synthetic dataset that mirrors real-world nuances such as work-life balance, travelling distances, and others.
+
+The analysis includes data extraction, transformation, statistical testing, and visualization built using Python and its libraries such as pandas. We have contextualized the business implications considering the synthetic nature of the data.
 
 
 ## Dataset Content
@@ -19,25 +21,38 @@ The datasets contain 1,470 employee records with 34 attributes covering demograp
 * Develop dashboard visuals to communicate attrition patterns and predictors.
 
 
-## Hypothesis and how to validate?
+## Hypotheses and research methodology
 The project tests the following five hypotheses:
 
-1. Gender and Attrition - Null: Gender and attrition are independent.Validation: Chi-square test of independence on a contingency table (Gender × Attrition); visualise with a stacked bar showing attrition proportions by Gender.Outcome: p > 0.05 - fail to reject null (no significant relationship observed).
-2. Age and Attrition (via AgeBracket) - Null: Age bracket and attrition are independent.Validation: Chi-square test of independence on AgeBracket × Attrition; support with a stacked column chart of attrition rate by age bracket.Outcome: p < 0.05 - reject null (attrition significantly varies across age brackets).
-3. Department and Attrition - Null: Department and attrition are independent.Validation: Chi-square test of independence on Department × Attrition; bar chart of attrition proportions by department (counts and % for context).Outcome: p < 0.05 - reject null (department is significantly related to attrition).
-4. Monthly Income and Attrition - Null: Monthly income and attrition are unrelated.Validation: Compare distributions by attrition status using normality-checked two-sample tests (Welch’s t-test if approximately normal; otherwise Mann–Whitney U). Add point-biserial correlation as a robustness check; visualise with box/violin plots by attrition status.Outcome: p < 0.05 - reject null (income levels differ significantly between attrition groups, lower income linked to higher attrition).
-5. Total Satisfaction Level and Attrition - Null: Overall satisfaction level and attrition are unrelated.Validation: Two-sample test by attrition status (Welch’s t-test or Mann–Whitney U) on the engineered TotalSatisfaction metric; supplement with a logistic regression (Attrition ~ TotalSatisfaction) to quantify effect size (odds ratio). Visualise with boxplots and a probability curve from the logistic model.Outcome: p < 0.05 - reject null (lower overall satisfaction strongly associated with higher attrition).
+|Index|Hypotheses|method|p-value|Interpreation|
+|-----|----------------|-------------------------|-------------|-------|
+|1|Gender and Attrition|Chi-squared|0.2|Accept null|
+|2|Age and Attrition|Chi-squared_contingency|0.0|Reject null|
+|3| Department and Attrition|Chi-squared|0.0|Reject null|
+|4|Monthly income and Attrition|MWU|0.00|Reject null|
+|5|Total satisfaction level and Attrition|MWU|0.0|Reject null|
+|5.1|JobSatisfaction and Attrition|MWU|0.0|Reject null|
 
-Note: Job Satisfaction vs Attrition (a sub-hypothesis of #5) was also explored using a Chi-square test across the ordinal satisfaction levels, with a stacked bar for visualisation. Outcome: p < 0.05 - reject null (attrition differs significantly by job satisfaction level).
 
 ## Project Plan
 * Data Collection: Gather raw HR dataset (WA_Fn-UseC_-HR-Employee-Attrition.csv).
-* Data Loading: Initial load performed in predict_employee_attrition_load.ipynb.
+* Data Loading: Initial load performed in predict_employee_attrition_extract.ipynb.
 * Data Transformation: Feature engineering and cleaning in predict_employee_attrition_transform.ipynb.
-* Data Extraction: Preparation of focused analysis subsets in predict_employee_attrition_extract.ipynb.
 * Analysis & Interpretation: Hypothesis testing, visualisation, and business impact assessment.
+* Dashboarding: Further data transformation (Measures) for visualisation in PowerBI.
 
-The chosen methodology ensures reproducibility and traceability across stages of the pipeline.
+The chosen methodology ensures reproducibility and traceability across stages of the ETL pipeline.
+
+
+## Team structure
+We divided the workload equally to ensure everyone contributed to the ETL process. However, we also held an additional role.
+
+|Name|Responsibile|Accountable|Consulted|Informed|
+|-------|-----|------|--------------|------------|
+|Payal|ETL|Dashboaring|Readme|-|
+|Petal|ETL|Readme|Dashboarding|-|
+|Naren|ETL|Project|Transform|Dashboarding|
+
 
 ### Workflow Diagram:
 
@@ -48,6 +63,41 @@ graph TD
     D --> E[Statistical Analysis + Visualisation]
     E --> F[Power BI Dashboard]
 
+
+## Analysis techniques used
+* Chi-square tests: For categorical independence testing.
+* Mann-Whitney U Test: For numerical features.
+* Correlation analysis: To assess linear relationships between satisfaction, income, and attrition.
+* Data visualisation: Bar charts, histograms, boxplots for pattern discovery.
+* Feature engineering: Creating new variables (e.g., Age Bracket, Total Satisfaction index).
+
+Limitations: Dataset is relatively small (1,470 rows) and the data was engineered (synthetically generated), limiting generalisability. Certain categories (such as Attrition, Department) are biased as they have low representation of one particular value, which impacts statistical robustness.
+
+Generative AI was used to:
+
+* Ideate hypothesis-testing approaches.
+* Suggest dashboard layouts and visualisation techniques.
+* Optimise code readability and structure.
+
+
+## Ethical considerations
+* Data Privacy: The dataset is anonymised and synthetic; no personal identifiers are included.
+* Bias/Fairness: Representation imbalances (e.g., small HR sample) may bias interpretations.
+* Societal Considerations: Analysis focuses on fairness and preventing biased HR decision-making.
+
+
+## Dashboard
+We used PowerBI to build a dashboard. To review the dashboard, please download the .pbix file from the [# dashboard] folder and open it locally on your system.
+
+
+## Dashboard Design
+1. Overview Page: KPIs (attrition rate, headcount, average age, average income).
+2. Attrition Analysis: Donut chart (Attrition Yes/No), bar charts by Department and Job Role.
+3. Demographics: Age distribution, gender, and marital status stacked charts.
+4. Tenure & Experience: Attrition trends by years at company and income distribution.
+5. Work Conditions: Attrition split by Overtime, Business Travel, and Satisfaction Heatmaps.
+
+Communication: Visuals were designed for non-technical HR managers with tooltips, labels, and interactivity. Technical audiences can further query Jupyter notebook outputs. 
 
 ## Rationale to map Business Requirements to the Data Visualisations
 * Overview Page (KPIs: Attrition Rate, Active/Inactive Employees, Total Employees) → Provides high-level business metrics for quick decision-making by HR leadership.
@@ -60,55 +110,31 @@ graph TD
 * Attrition by Satisfaction Dimensions (Environment, Job, Work-Life Balance, Relationship) → Measures engagement factors, enabling HR to focus retention strategies on areas with the strongest negative impact.
 * Attrition by Marital Status (Donut Chart) → Provides demographic context on personal-life balance, complementing work-life balance analysis.
 
-## Analysis techniques used
-* Chi-square tests: For categorical independence testing.
-* Correlation analysis: To assess linear relationships between satisfaction, income, and attrition.
-* Data visualisation: Bar charts, histograms, boxplots for pattern discovery.
-* Feature engineering: Creating new variables (e.g., Age Bracket, Total Satisfaction index).
-
-Limitations: Dataset is relatively small (1,470 rows), limiting generalisability. Certain categories (e.g., HR department) have low representation, impacting statistical robustness.
-
-Generative AI was used to:
-
-* Ideate hypothesis-testing approaches.
-* Suggest dashboard layouts and visualisation techniques.
-* Optimise code readability and structure.
-
-## Ethical considerations
-* Data Privacy: The dataset is anonymised and synthetic; no personal identifiers are included.
-* Bias/Fairness: Representation imbalances (e.g., small HR sample) may bias interpretations.
-* Societal Considerations: Analysis focuses on fairness and preventing biased HR decision-making.
-
-## Dashboard Design
-1. Overview Page: KPIs (attrition rate, headcount, average age, average income).
-2. Attrition Analysis: Donut chart (Attrition Yes/No), bar charts by Department and Job Role.
-3. Demographics: Age distribution, gender, and marital status stacked charts.
-4. Tenure & Experience: Attrition trends by years at company and income distribution.
-5. Work Conditions: Attrition split by Overtime, Business Travel, and Satisfaction Heatmaps.
-
-Communication: Visuals were designed for non-technical HR managers with tooltips, labels, and interactivity. Technical audiences can further query Jupyter notebook outputs. 
 
 ## Unfixed Bugs
-* Some categorical values in the original dataset (e.g., Department) are imbalanced, making certain statistical results less reliable.
+* Some categorical values in the original dataset (e.g., Department, Gender, Attrition) are biased, making certain statistical results less reliable.
 * Visualisation scaling issues may arise in Power BI when comparing small vs large departments.
 * Feedback from peers led to adjustments in feature engineering (e.g., Age Brackets), but some improvements remain ongoing.
+
 
 ## Development Roadmap
 * Challenges: Handling categorical imbalance and ensuring statistical significance.
 * Strategies: Use both proportions and raw counts, and validate findings with multiple metrics.
-* Next Skills: Explore predictive modelling (e.g., logistic regression, random forests) for attrition prediction; improve Power BI dashboard interactivity with DAX measures.
+* Next Skills: Handle data bias, explore predictive modelling (e.g., logistic regression, random forests) for attrition prediction, improve Power BI dashboard interactivity with DAX measures.
+
 
 ## Main Data Analysis Libraries
 * pandas: Data manipulation and cleaning (read_csv, groupby, feature creation).
 * numpy: Numerical transformations.
-* matplotlib & seaborn: Visualisation of attrition patterns.
+* matplotlib, seaborn, and plotly: Visualisation of attrition patterns.
+* pingouin: Hypothesis testing (Mann-Whitney U Test)
 * scipy.stats: Hypothesis testing (Chi-square).
 
 
 ## Credits 
 ### Content 
 
-- Base dataset: IBM HR Analytics Employee Attrition & Performance Dataset (Kaggle)
+- Base dataset: Kaggle [IBM HR Analytics Employee Attrition & Performance Dataset](https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset/data)
 - Guidance on Chi-square testing: SciPy documentation
 - Code structuring best practices: Inspired by open-source HR analytics notebooks
 
@@ -116,5 +142,10 @@ Communication: Visuals were designed for non-technical HR managers with tooltips
 
 - Code Institute CI logo provided via their asset repository
 
-## Acknowledgements (optional)
-* Thanks to our facilitator, Emma Lamont, and mentor, Spencer Barriball for their availability and feedback during the hackathon.
+
+## Acknowledgements
+* Kaggle: Derived the source dataset from [Kaggle](https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset/data)
+* Thanks to our facilitator, Emma Lamont, for their availability and feedback during the hackathon.
+* Code Institute: For creating and providing this opportunity
+* GitHub: For providing a version tool that creates a seamless workflow
+* ChatGPT and GitHub Copilot: For inspiring us with ideas and co-creating code.
