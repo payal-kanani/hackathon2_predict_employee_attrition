@@ -1,6 +1,6 @@
 # Predict Employee Attrition
 
-This project is designed to analyze employee behavior patterns and their relation to attrition rates to help employers make informed decisions and plan for timely intervention measures. It utilizes a synthetic dataset that mirrors real-world nuances such as work-life balance, travelling distances, and others.
+This project is designed to analyze employee behavior patterns and their relation to attrition rates. It aims to help employers make informed decisions and plan for timely intervention measures. The project utilizes a synthetic dataset that mirrors real-world nuances such as work-life balance, travelling distances, and others.
 
 The analysis includes data extraction, transformation, statistical testing, and visualization built using Python and its libraries such as pandas. We have contextualized the business implications considering the synthetic nature of the data.
 
@@ -54,16 +54,6 @@ We divided the workload equally to ensure everyone contributed to the ETL proces
 |Naren|ETL|Project|Transform|Dashboarding|
 
 
-### Workflow Diagram:
-
-graph TD
-    A[Raw Data (CSV)] --> B[Data Loading Notebook]
-    B --> C[Data Transformation Notebook]
-    C --> D[Data Extraction Notebook]
-    D --> E[Statistical Analysis + Visualisation]
-    E --> F[Power BI Dashboard]
-
-
 ## Analysis techniques used
 * Chi-square tests: For categorical independence testing.
 * Mann-Whitney U Test: For numerical features.
@@ -90,25 +80,18 @@ Generative AI was used to:
 We used PowerBI to build a dashboard. To review the dashboard, please download the .pbix file from the [# dashboard] folder and open it locally on your system.
 
 
-## Dashboard Design
-1. Overview Page: KPIs (attrition rate, headcount, average age, average income).
-2. Attrition Analysis: Donut chart (Attrition Yes/No), bar charts by Department and Job Role.
-3. Demographics: Age distribution, gender, and marital status stacked charts.
-4. Tenure & Experience: Attrition trends by years at company and income distribution.
-5. Work Conditions: Attrition split by Overtime, Business Travel, and Satisfaction Heatmaps.
+## Dashboard Design: Rationale
+1. Overview: Attrition trends across features. 
+2. Workforce Demographics and Compensation: Attrition trends across demographics and workplace dynamics.
+3. Employee Engagement and Satisfaction: Employee satisfaction across various engagement metrics.
 
 Communication: Visuals were designed for non-technical HR managers with tooltips, labels, and interactivity. Technical audiences can further query Jupyter notebook outputs. 
 
+<img width="998" height="649" alt="dashboard_overview" src="https://github.com/user-attachments/assets/9a2dc59d-d40d-4073-b552-8dfc0c7b24c7" />
+
+
 ## Rationale to map Business Requirements to the Data Visualisations
-* Overview Page (KPIs: Attrition Rate, Active/Inactive Employees, Total Employees) → Provides high-level business metrics for quick decision-making by HR leadership.
-* Attrition by Gender and Marital Status (Donut Chart) → Helps assess whether demographic groups are disproportionately impacted, supporting fair and inclusive retention policies.
-* Attrition by Age and Age Bracket (Histogram and Bar Chart) → Identifies life-stage trends (e.g., higher attrition in younger cohorts), guiding tailored engagement strategies.
-* Attrition by Job Role and Department (Clustered Bar) → Surfaces role- and department-specific hotspots where interventions are most urgently needed.
-* Attrition by Years at Company and Distance from Home (Line Charts) → Shows tenure- and commute-related attrition drivers, allowing HR to address onboarding/early career attrition and remote work/travel policies.
-* Attrition by Overtime and Monthly Income (Bar/Column Charts) → Links compensation and workload balance to attrition, guiding policy changes in pay scales and overtime management.
-* Attrition by Business Travel (Bar Chart) → Highlights mobility-related pressures contributing to attrition, especially in frequent travel roles.
-* Attrition by Satisfaction Dimensions (Environment, Job, Work-Life Balance, Relationship) → Measures engagement factors, enabling HR to focus retention strategies on areas with the strongest negative impact.
-* Attrition by Marital Status (Donut Chart) → Provides demographic context on personal-life balance, complementing work-life balance analysis.
+Build a narrative by first introducing the stakeholders to the basic metrics, such as the count of attrition and attrition percentage by different factors. Following that, we dive deep into the workplace dynamics that impact attrition. Finally, we close with factors that impact engagement and satisfaction, helping the stakeholders with a clear path for action.
 
 
 ## Unfixed Bugs
@@ -120,7 +103,7 @@ Communication: Visuals were designed for non-technical HR managers with tooltips
 ## Development Roadmap
 * Challenges: Handling categorical imbalance and ensuring statistical significance.
 * Strategies: Use both proportions and raw counts, and validate findings with multiple metrics.
-* Next Skills: Handle data bias, explore predictive modelling (e.g., logistic regression, random forests) for attrition prediction, improve Power BI dashboard interactivity with DAX measures.
+* Next Skills: Handle data bias, explore predictive modelling (e.g., logistic regression, random forests) for attrition prediction, and improve Power BI dashboard interactivity with DAX measures.
 
 
 ## Main Data Analysis Libraries
@@ -145,7 +128,7 @@ Communication: Visuals were designed for non-technical HR managers with tooltips
 
 ## Acknowledgements
 * Kaggle: Derived the source dataset from [Kaggle](https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset/data)
-* Thanks to our facilitator, Emma Lamont, for their availability and feedback during the hackathon.
-* Code Institute: For creating and providing this opportunity
-* GitHub: For providing a version tool that creates a seamless workflow
+* Thanks to our facilitator, Emma Lamont, for her availability and feedback during the hackathon.
+* Code Institute: For creating and providing this opportunity.
+* GitHub: For providing a versioning tool that creates a seamless workflow.
 * ChatGPT and GitHub Copilot: For inspiring us with ideas and co-creating code.
