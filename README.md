@@ -87,7 +87,7 @@ We used PowerBI to build a dashboard. To review the dashboard, please download t
 
 Communication: Visuals were designed for non-technical HR managers with tooltips, labels, and interactivity. Technical audiences can further query Jupyter notebook outputs. 
 
-<img width="998" height="649" alt="dashboard_overview" src="https://github.com/user-attachments/assets/9a2dc59d-d40d-4073-b552-8dfc0c7b24c7" />
+<img width="1233" height="740" alt="dashboard_overview" src="https://github.com/user-attachments/assets/42631a86-3b82-44ac-8e6d-6a0db7825838" />
 
 
 ## Rationale to map Business Requirements to the Data Visualisations
