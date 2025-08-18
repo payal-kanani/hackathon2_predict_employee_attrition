@@ -49,8 +49,8 @@ We divided the workload equally to ensure everyone contributed to the ETL proces
 
 |Name|Responsibile|Accountable|Consulted|Informed|
 |-------|-----|------|--------------|------------|
-|Payal|ETL|Dashboaring|Readme|-|
-|Petal|ETL|Readme|Dashboarding|-|
+|Payal|ETL|Dashboaring|Readme|ETL|
+|Petal|ETL|Readme|Dashboarding|ETL|
 |Naren|ETL|Project|Transform|Dashboarding|
 
 
