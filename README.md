@@ -1,72 +1,120 @@
-# ![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# Predict Employee Attrition
 
-## Template Instructions
+**Predict Employee Attrition** is a comprehensive data analysis tool designed to streamline data exploration, analysis, and visualisation. The tool supports multiple data formats and provides an intuitive interface for both novice and expert data scien
 
-Welcome,
 
-This is the Code Institute student template for the Data Analytics capstone project. We have preinstalled all of the tools you need to get started. It's perfectly okay to use this template as the basis for your project submissions. Click the `Use this template` button above to get started.
+## Dataset Content
+This project uses multiple datasets and processed versions relating to employee attrition:
+* WA_Fn-UseC_-HR-Employee-Attrition.csv: The original dataset containing HR data such as demographics, work conditions, and attrition labels.
+* predict_employee_attrition_copy.csv: A cleaned copy of the original dataset, prepared for exploration.
+* predict_employee_attrition_transformed.csv: The transformed dataset including derived features (e.g., age brackets, total satisfaction index) to support deeper analysis.
 
-You can safely delete the Template Instructions section of this README.md file and modify the remaining paragraphs for your own project. Please do read the Template Instructions at least once, though! It contains some important information about the IDE and the extensions we use.
+The datasets contain 1,470 employee records with 34 attributes covering demographics, job role, income, tenure, work-life balance, satisfaction metrics, and attrition outcomes.
 
-## How to use this repo
 
-1. Use this template to create your GitHub project repo. Click the **Use this template** button, then click **Create a new repository**.
+## Business Requirements
+* Identify key drivers of employee attrition across departments, roles, and demographics.
+* Build a structured workflow (load → transform → extract → analyze) that allows reproducibility.
+* Provide insights to guide HR policies and improve employee retention.
+* Develop dashboard visuals to communicate attrition patterns and predictors.
 
-1. Copy the URL of your repository to your clipboard.
 
-1. In VS Code, select **File** -> **Open Folder**.
+## Hypothesis and how to validate?
+The project tests the following five hypotheses:
 
-1. Select your `vscode-projects` folder, then click the **Select Folder** button on Windows, or the **Open** button on Mac.
+1. Gender and Attrition - Null: Gender and attrition are independent.Validation: Chi-square test of independence on a contingency table (Gender × Attrition); visualise with a stacked bar showing attrition proportions by Gender.Outcome: p > 0.05 - fail to reject null (no significant relationship observed).
+2. Age and Attrition (via AgeBracket) - Null: Age bracket and attrition are independent.Validation: Chi-square test of independence on AgeBracket × Attrition; support with a stacked column chart of attrition rate by age bracket.Outcome: p < 0.05 - reject null (attrition significantly varies across age brackets).
+3. Department and Attrition - Null: Department and attrition are independent.Validation: Chi-square test of independence on Department × Attrition; bar chart of attrition proportions by department (counts and % for context).Outcome: p < 0.05 - reject null (department is significantly related to attrition).
+4. Monthly Income and Attrition - Null: Monthly income and attrition are unrelated.Validation: Compare distributions by attrition status using normality-checked two-sample tests (Welch’s t-test if approximately normal; otherwise Mann–Whitney U). Add point-biserial correlation as a robustness check; visualise with box/violin plots by attrition status.Outcome: p < 0.05 - reject null (income levels differ significantly between attrition groups, lower income linked to higher attrition).
+5. Total Satisfaction Level and Attrition - Null: Overall satisfaction level and attrition are unrelated.Validation: Two-sample test by attrition status (Welch’s t-test or Mann–Whitney U) on the engineered TotalSatisfaction metric; supplement with a logistic regression (Attrition ~ TotalSatisfaction) to quantify effect size (odds ratio). Visualise with boxplots and a probability curve from the logistic model.Outcome: p < 0.05 - reject null (lower overall satisfaction strongly associated with higher attrition).
 
-1. From the top menu in VS Code, select **Terminal** > **New Terminal** to open the terminal.
+Note: Job Satisfaction vs Attrition (a sub-hypothesis of #5) was also explored using a Chi-square test across the ordinal satisfaction levels, with a stacked bar for visualisation. Outcome: p < 0.05 - reject null (attrition differs significantly by job satisfaction level).
 
-1. In the terminal, type `git clone` followed by the URL of your GitHub repository. Then hit **Enter**. This command will download all the files in your GitHub repository into your vscode-projects folder.
+## Project Plan
+* Data Collection: Gather raw HR dataset (WA_Fn-UseC_-HR-Employee-Attrition.csv).
+* Data Loading: Initial load performed in predict_employee_attrition_load.ipynb.
+* Data Transformation: Feature engineering and cleaning in predict_employee_attrition_transform.ipynb.
+* Data Extraction: Preparation of focused analysis subsets in predict_employee_attrition_extract.ipynb.
+* Analysis & Interpretation: Hypothesis testing, visualisation, and business impact assessment.
 
-1. In VS Code, select **File** > **Open Folder** again.
+The chosen methodology ensures reproducibility and traceability across stages of the pipeline.
 
-1. This time, navigate to and select the folder for the project you just downloaded. Then, click **Select Folder**.
+### Workflow Diagram:
 
-1. A virtual environment is necessary when working with Python projects to ensure each project's dependencies are kept separate from each other. You need to create your virtual environment, also called a venv, and then ensure that it is activated any time you return to your workspace.
-Click the gear icon in the lower left-hand corner of the screen to open the Manage menu and select **Command Palette** to open the VS Code command palette.
+graph TD
+    A[Raw Data (CSV)] --> B[Data Loading Notebook]
+    B --> C[Data Transformation Notebook]
+    C --> D[Data Extraction Notebook]
+    D --> E[Statistical Analysis + Visualisation]
+    E --> F[Power BI Dashboard]
 
-1. In the command palette, type: *create environment* and select **Python: Create Environment…**
 
-1. Choose **Venv** from the dropdown list.
+## Rationale to map Business Requirements to the Data Visualisations
+* Overview Page (KPIs: Attrition Rate, Active/Inactive Employees, Total Employees) → Provides high-level business metrics for quick decision-making by HR leadership.
+* Attrition by Gender and Marital Status (Donut Chart) → Helps assess whether demographic groups are disproportionately impacted, supporting fair and inclusive retention policies.
+* Attrition by Age and Age Bracket (Histogram and Bar Chart) → Identifies life-stage trends (e.g., higher attrition in younger cohorts), guiding tailored engagement strategies.
+* Attrition by Job Role and Department (Clustered Bar) → Surfaces role- and department-specific hotspots where interventions are most urgently needed.
+* Attrition by Years at Company and Distance from Home (Line Charts) → Shows tenure- and commute-related attrition drivers, allowing HR to address onboarding/early career attrition and remote work/travel policies.
+* Attrition by Overtime and Monthly Income (Bar/Column Charts) → Links compensation and workload balance to attrition, guiding policy changes in pay scales and overtime management.
+* Attrition by Business Travel (Bar Chart) → Highlights mobility-related pressures contributing to attrition, especially in frequent travel roles.
+* Attrition by Satisfaction Dimensions (Environment, Job, Work-Life Balance, Relationship) → Measures engagement factors, enabling HR to focus retention strategies on areas with the strongest negative impact.
+* Attrition by Marital Status (Donut Chart) → Provides demographic context on personal-life balance, complementing work-life balance analysis.
 
-1. Choose the Python version you installed earlier. Currently, we recommend Python 3.12.8
+## Analysis techniques used
+* Chi-square tests: For categorical independence testing.
+* Correlation analysis: To assess linear relationships between satisfaction, income, and attrition.
+* Data visualisation: Bar charts, histograms, boxplots for pattern discovery.
+* Feature engineering: Creating new variables (e.g., Age Bracket, Total Satisfaction index).
 
-1. **DO NOT** click the box next to `requirements.txt`, as you need to do more steps before you can install your dependencies. Click **OK**.
+Limitations: Dataset is relatively small (1,470 rows), limiting generalisability. Certain categories (e.g., HR department) have low representation, impacting statistical robustness.
 
-1. You will see a `.venv` folder appear in the file explorer pane to show that the virtual environment has been created.
+Generative AI was used to:
 
-1. **Important**: Note that the `.venv` folder is in the `.gitignore` file so that Git won't track it.
+* Ideate hypothesis-testing approaches.
+* Suggest dashboard layouts and visualisation techniques.
+* Optimise code readability and structure.
 
-1. Return to the terminal by clicking on the TERMINAL tab, or click on the **Terminal** menu and choose **New Terminal** if no terminal is currently open.
+## Ethical considerations
+* Data Privacy: The dataset is anonymised and synthetic; no personal identifiers are included.
+* Bias/Fairness: Representation imbalances (e.g., small HR sample) may bias interpretations.
+* Societal Considerations: Analysis focuses on fairness and preventing biased HR decision-making.
 
-1. In the terminal, use the command below to install your dependencies. This may take several minutes.
+## Dashboard Design
+1. Overview Page: KPIs (attrition rate, headcount, average age, average income).
+2. Attrition Analysis: Donut chart (Attrition Yes/No), bar charts by Department and Job Role.
+3. Demographics: Age distribution, gender, and marital status stacked charts.
+4. Tenure & Experience: Attrition trends by years at company and income distribution.
+5. Work Conditions: Attrition split by Overtime, Business Travel, and Satisfaction Heatmaps.
 
- ```console
- pip3 install -r requirements.txt
- ```
+Communication: Visuals were designed for non-technical HR managers with tooltips, labels, and interactivity. Technical audiences can further query Jupyter notebook outputs. 
 
-1. Open the `jupyter_notebooks` directory, and click on the notebook you want to open.
+## Unfixed Bugs
+* Some categorical values in the original dataset (e.g., Department) are imbalanced, making certain statistical results less reliable.
+* Visualisation scaling issues may arise in Power BI when comparing small vs large departments.
+* Feedback from peers led to adjustments in feature engineering (e.g., Age Brackets), but some improvements remain ongoing.
 
-1. Click the **kernel** button and choose **Python Environments**.
+## Development Roadmap
+* Challenges: Handling categorical imbalance and ensuring statistical significance.
+* Strategies: Use both proportions and raw counts, and validate findings with multiple metrics.
+* Next Skills: Explore predictive modelling (e.g., logistic regression, random forests) for attrition prediction; improve Power BI dashboard interactivity with DAX measures.
 
-Note that the kernel says `Python 3.12.8` as it inherits from the venv, so it will be Python-3.12.8 if that is what is installed on your PC. To confirm this, you can use the command below in a notebook code cell.
+## Main Data Analysis Libraries
+* pandas: Data manipulation and cleaning (read_csv, groupby, feature creation).
+* numpy: Numerical transformations.
+* matplotlib & seaborn: Visualisation of attrition patterns.
+* scipy.stats: Hypothesis testing (Chi-square).
 
-```console
-! python --version
-```
 
-## Deployment Reminders
+## Credits 
+### Content 
 
-* Set the `.python-version` Python version to a [Heroku-22](https://devcenter.heroku.com/articles/python-support#supported-runtimes) stack currently supported version that closest matches what you used in this project.
-* The project can be deployed to Heroku using the following steps.
+- Base dataset: IBM HR Analytics Employee Attrition & Performance Dataset (Kaggle)
+- Guidance on Chi-square testing: SciPy documentation
+- Code structuring best practices: Inspired by open-source HR analytics notebooks
 
-1. Log in to Heroku and create an App
-2. At the **Deploy** tab, select **GitHub** as the deployment method.
-3. Select your repository name and click **Search**. Once it is found, click **Connect**.
-4. Select the branch you want to deploy, then click **Deploy Branch**.
-5. The deployment process should happen smoothly if all deployment files are fully functional. Click the button **Open App** at the top of the page to access your App.
-6. If the slug size is too large, then add large files not required for the app to the `.slugignore` file.
+### Media
+
+- Code Institute CI logo provided via their asset repository
+
+## Acknowledgements (optional)
+* Thanks to our facilitator, Emma Lamont, and mentor, Spencer Barriball for their availability and feedback during the hackathon.
